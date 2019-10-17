@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
 
     let typeOFcars = ["Suv", "Truck","Sedan","Van","Coupe","Wagon","Sport Car","Diesel","Luxury Car","Hybrid","Crossover"]
+    var dataOfItems = [""]
+
     
     @IBOutlet weak var itemsTableView: UITableView!
     
@@ -22,6 +24,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        readData()
         categoryDataPicker.isHidden = true
         itemsTableView.dataSource = self
         itemsTableView.delegate = self
@@ -37,6 +40,27 @@ class ViewController: UIViewController {
     @IBAction func showPickerPressed(_ sender: UIButton) {
         categoryDataPicker.isHidden = !categoryDataPicker.isHidden
     }
+    
+    func readData()  {
+        let db = Firestore.firestore()
+        db.collection("cars").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    self.dataOfItems.append(document.documentID)
+                
+                 //   print("\(document.documentID) => \(document.data())")
+                    print(self.dataOfItems)
+                    
+                }
+            }
+        }
+    }
+    
+    
+    
+    
 }
 
 extension ViewController : UIPickerViewDataSource {
@@ -86,16 +110,17 @@ extension ViewController : UIPickerViewDelegate {
 }
 extension ViewController : UITableViewDelegate {
     
+    
 }
 
 extension ViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return typeOFcars.count
+        return dataOfItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)  
+    cell.textLabel?.text = dataOfItems[indexPath.row]
         return cell
         
     }
