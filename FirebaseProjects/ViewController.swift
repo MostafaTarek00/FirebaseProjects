@@ -13,7 +13,7 @@ class ViewController: UIViewController {
 
     
 
-    let typeOFcars = ["Suv", "Truck","Sedan","Van","Coupe","Wagon","Sport Car","Diesel","Luxury Car","Hybrid","Crossover"]
+    let typeOFcars = ["Suv", "Truck","Sedan","Van","Coupe","Wagon","SportCar","Diesel","LuxuryCar","Hybrid","Crossover"]
     var dataOfItems = [""]
 
     
@@ -36,10 +36,14 @@ class ViewController: UIViewController {
     
     
 
-
+    
     @IBAction func showPickerPressed(_ sender: UIButton) {
         categoryDataPicker.isHidden = !categoryDataPicker.isHidden
     }
+    
+    
+   
+    
     
     func readData()  {
         let db = Firestore.firestore()
@@ -48,7 +52,9 @@ class ViewController: UIViewController {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    self.dataOfItems.append(document.documentID)
+                    
+                    
+                self.dataOfItems.append(document.documentID)
                     self.itemsTableView.reloadData()
                 
                  //   print("\(document.documentID) => \(document.data())")
@@ -86,26 +92,53 @@ extension ViewController : UIPickerViewDelegate {
 
         
         //MARK :-   Firebase colud and save it in our database
+        
+        var textField = UITextField()
+        let alert  = UIAlertController(title: "Add New Model Car", message: "", preferredStyle: .alert)
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create New Model"
+            textField = alertTextField
+            
+        }
+        let action = UIAlertAction(title: "Add Model", style: .default) { (action) in
+            
+            if let text = textField.text {
+                
+                var ref: DocumentReference? = nil
+                let db = Firestore.firestore()
+                 ref = db.collection("cars").addDocument(data: [
+                    "name":self.typeOFcars[row],
+                    "model": text ,
+                    "comment":"good"
+                    
+                    
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        } else {
+                            print("Document added with ID: \(ref!.documentID)")
+                            self.readData()
+                        }
+                }
+                
+                
+            }
+                
+                
+                
+            }
+       
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
 
 
         
-        var ref: DocumentReference? = nil
-        let db = Firestore.firestore()
-        ref = db.collection("cars").addDocument(data: [
-            "typeofcar": typeOFcars[row],
-            "comment": "ok ok ok ",
-
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
-            }
-        }
+    
         
         
     }
 
+    
     
     
 }

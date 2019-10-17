@@ -72,6 +72,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="GRC-xH-vba"/>
                     <connections>
                         <outlet property="categoryDataPicker" destination="T2J-th-Vj5" id="qMN-vS-MnX"/>
                         <outlet property="itemsTableView" destination="3J7-eb-Si7" id="fkb-Gz-FZj"/>
@@ -79,7 +80,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3" y="64"/>
+            <point key="canvasLocation" x="1496" y="64"/>
         </scene>
     </scenes>
 </document>
