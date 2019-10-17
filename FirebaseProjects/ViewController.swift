@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 
 class ViewController: UIViewController {
-    let db = Firestore.firestore()
 
     
 
@@ -61,15 +60,16 @@ extension ViewController : UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
         
-        //TO DO:  Firebase colud and save it in our database
+        //MARK :-   Firebase colud and save it in our database
 
-        // Add a new document with a generated ID
+
         
         var ref: DocumentReference? = nil
+        let db = Firestore.firestore()
         ref = db.collection("cars").addDocument(data: [
             "typeofcar": typeOFcars[row],
             "comment": "ok ok ok ",
-           
+
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -79,27 +79,6 @@ extension ViewController : UIPickerViewDelegate {
         }
         
         
-
-        
-        
-        
-        //TO DO:  Firebase realTime and save it in our database
-        
-//        let messagesDB = Database.database().reference().child("DataOfCar")
-//        let messageDictionary = ["Sender" :  typeOFcars[row] , "MessageBody" :"news a good"]
-//
-//        messagesDB.childByAutoId().setValue(messageDictionary){
-//            (error , reference) in
-//            if error != nil {
-//                print(error!)
-//            }else {
-//                print("Message Saved Successfull")
-//
-//            }
-//        }
-    
-    
-
     }
 
     
@@ -126,12 +105,4 @@ extension ViewController : UITableViewDataSource {
 
 
 
-/*
- service cloud.firestore {
- match /databases/{database}/documents {
- match /{document=**} {
- allow read, write: if false;
- }
- }
- }
- */
+
