@@ -49,6 +49,7 @@ class ViewController: UIViewController {
             } else {
                 for document in querySnapshot!.documents {
                     self.dataOfItems.append(document.documentID)
+                    self.itemsTableView.reloadData()
                 
                  //   print("\(document.documentID) => \(document.data())")
                     print(self.dataOfItems)
@@ -119,7 +120,7 @@ extension ViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)  
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
     cell.textLabel?.text = dataOfItems[indexPath.row]
         return cell
         
